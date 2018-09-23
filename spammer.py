@@ -190,13 +190,8 @@ class Spammer:
         t6 = Thread(target=self.joister_blast, args=[])
 
         t1.start()
-        time.sleep(self.delay)
         t2.start()
-        time.sleep(self.delay)
         t3.start()
-        time.sleep(self.delay)
         t4.start()
-        time.sleep(self.delay)
         t5.start()
-        time.sleep(self.delay)
         t6.start()
