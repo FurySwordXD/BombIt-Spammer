@@ -1,0 +1,48 @@
+# File name: main.py
+
+<CustomButton@Button>:
+    font_size: 32
+
+<SpammerGridLayout>:
+    id: spammer
+    mobile: mobile_entry
+    delay: delay_entry
+    count: bomb_entry
+    rows: 5
+    padding: 100
+    spacing: 10
+    
+    BoxLayout:
+        pos: root.x, root.top - self.height
+        Label:
+            text: "Fury's Spammer"
+
+    BoxLayout:
+        Label:
+            text: "Mobile number:"
+        TextInput:
+            id: mobile_entry
+            font_size: 32
+            multiline: False
+            size: 200,50
+
+    BoxLayout:
+        Label:
+            text: "Delay:"
+        TextInput:
+            id: delay_entry
+            font_size: 32
+            multiline: False
+
+    BoxLayout:
+        Label:
+            text: "Spam count:"
+        TextInput:
+            id: bomb_entry
+            font_size: 32
+            multiline: False
+
+    BoxLayout:
+        CustomButton:
+            text: "Spam"
+            on_press: spammer.bomb(mobile_entry.text, delay_entry.text, bomb_entry.text)
